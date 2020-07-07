@@ -1,6 +1,6 @@
 {
-	"name" : "KindEditor",
-	"version" : "4.1.12",
+	"name" : "KindEditor-Hu",
+	"version" : "0.0.1",
 	"filename" : "kindeditor",
 	"repository" : "kindsoft/kindeditor",
 	"devDependencies" : {
