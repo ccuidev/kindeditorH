@@ -6,23 +6,16 @@
 		<title>KindEditor Test</title>
 	</head>
 	<body>
-		<h1 id="type">KindEditor Test</h1>
+		<h1 id="type">KindEditorpppppp999</h1>
 		<form method="post" action="../php/demo.php">
-		<textarea name="editor1" cols="100" rows="20" style="width:800px;height:200px;"></textarea>
+		<textarea
+				uploadJson="http://dev01-emhcms.iccec.cn/apis/emhcms/file/uploadTextEditorFileToOss"
+				name="editor1"
+				id="create1"
+				cols="100"
+				rows="20"
+				style="width:800px;height:200px;"></textarea>
 		<br />
-		<textarea name="editor2" cols="100" rows="20" style="width:700px;height:100px;"></textarea>
-		<br />
-		<textarea name="editor3" cols="100" rows="20" style="width:700px;height:100px;"></textarea>
-		<br />
-		<textarea name="editor4" cols="100" rows="20" style="width:700px;height:100px;"></textarea>
-		<br />
-		<textarea name="editor5" cols="100" rows="20" style="width:700px;height:100px;"></textarea>
-		<br />
-		<input type="button" id="create1" value="Create #1" />
-		<input type="button" id="create2" value="Create #2" />
-		<input type="button" id="remove1" value="Remove #1" />
-		<input type="button" id="remove2" value="Remove #2" />
-		<input type="button" id="removeAll" value="Remove all" />
 		<input type="reset" name="button" value="Reset" />
 		<!-- <iframe src="http://www.kindsoft.net/"></iframe> -->
 		<script src="../kindeditor-all.js"></script>
@@ -30,6 +23,12 @@
 		<script>
 			//document.domain = 'domain.com';
 			KindEditor.ready(function(K) {
+				K.create('#create1', {
+					uploadJson : 'http://dev01-emhcms.iccec.cn/apis/emhcms/file/uploadTextEditorFileToOss',
+					fileManagerJson : '../asp/file_manager_json.asp',
+					agentId : '9F6FD19CCFA4A74EEA3E4B95AF093CFD469803DF46A5F8CDBEEBC96B7FC7DD4D',
+					allowFileManager : true
+				});
 				window.editor = K.create('textarea', {
 					allowFileManager : true,
 					langType : 'zh-CN',
