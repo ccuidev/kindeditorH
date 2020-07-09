@@ -7,15 +7,6 @@
  * @licence http://www.kindsoft.net/license.php
  * @version 4.1.12 (2019-03-07)
  *******************************************************************************/
-function addScriptTag(src) {
-	var script = document.createElement("script");
-	script.setAttribute("type", "text/javascript");
-	script.src = src;
-	document.body.appendChild(script);
-}
-addScriptTag("../axios.js");
-
-// import axios from '@node_modules/axios'
 (function (window, undefined) {
 	if (window.KindEditor) {
 		return;
@@ -4584,27 +4575,23 @@ addScriptTag("../axios.js");
 			xhr.send(null);
 		}
 	}
-	function _ajaxForm(url, param, self) {
-		// let config = {
-		// 	headers: {transformRequest: [data => data]}
-		// }
-		let params = new FormData()
-		params.append('agentId', param.agentId)
-		params.append('file', param.file)
-		console.log('99999999999999999999999999', params)
-		axios.post(url, params)
-			.then(function (response) {
-				console.log('response111111111', response)
-				if (response.data.code == 0) {
-					//console.log(self.options);
-					var html = '<img src="' + response.data.data[0] + '" />'
-					//console.log(html)
-					self.appendHtml(html).hideDialog().focus()
+	function _ajaxForm(url, fn, method, param, dataType) {
+		method = method || 'GET';
+		dataType = dataType || 'json';
+		var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+		xhr.open(method, url, true);
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				if (fn) {
+					var data = _trim(xhr.responseText);
+					if (dataType == 'json') {
+						data = _json(data);
+					}
+					fn(data);
 				}
-			})
-			.catch(function (error) {
-				console.log(error)
-			})
+			}
+		};
+		xhr.send(param);
 	}
 	K.loadScript = _loadScript;
 	K.loadStyle = _loadStyle;
@@ -7314,8 +7301,21 @@ KindEditor.plugin('image', function(K) {
 								file:uploadbutton.fileBox[0].files[0],
 								agentId: self.options.agentId
 							};
-							K.ajaxForm(self.options.uploadJson, param, self);
-
+							var params = new FormData();
+							var file=uploadbutton.fileBox[0].files[0];
+							params.append('agentId', self.options.agentId)
+							params.append('file', file)
+							//console.log(file,formData)
+							K.ajaxForm(self.options.uploadJson, function(data) {
+								dialog.hideLoading();
+								console.log('99999999999999999999', data);
+								if (data.code==0) {
+									//console.log(self.options);
+									var html = '<img src="' + data.data[0] + '" />';
+									//console.log(html)
+									self.appendHtml(html).hideDialog().focus();
+								}
+							},'POST',params,'json');
 							localUrlBox.val('');
 							return;
 						}
@@ -9804,7 +9804,7 @@ KindEditor.plugin('table', function(K) {
  *******************************************************************************/
 KindEditor.plugin('template', function(K) {
 	var self = this, name = 'template', lang = self.lang(name + '.'),
-		htmlPath = self.pluginsPath + name + '/html/';
+		htmlPath = '../plugins/template/html/';
 	function getFilePath(fileName) {
 		return htmlPath + fileName + '?ver=' + encodeURIComponent(K.DEBUG ? K.TIME : K.VERSION);
 	}
@@ -9848,6 +9848,7 @@ KindEditor.plugin('template', function(K) {
 			iframe.attr('src', getFilePath(this.value));
 		});
 	});
+	console.log(htmlPath,'htmlPath')
 });
 
 /*******************************************************************************
