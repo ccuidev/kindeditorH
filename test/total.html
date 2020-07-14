@@ -9,7 +9,6 @@
 <h1 id="type">KindEditor Test</h1>
 <form method="post" action="../php/demo.php">
 		<textarea
-				uploadJson="http://dev01-emhcms.iccec.cn/apis/emhcms/file/uploadTextEditorFileToOss"
 				name="editor1"
 				id="create1"
 				cols="100"
@@ -24,9 +23,7 @@
 	//document.domain = 'domain.com';
 	KindEditor.ready(function(K) {
 		K.create('#create1', {
-			uploadJson : 'http://dev01-emhcms.iccec.cn/apis/emhcms/file/uploadTextEditorFileToOss',
 			fileManagerJson : '../asp/file_manager_json.asp',
-			agentId : '0054A8D6C755F723EF7BEA0A9CEC159F91970D7A6AF87236EC34E000998CBAFF',
 			allowFileManager : true
 		});
 		window.editor = K.create('textarea', {
